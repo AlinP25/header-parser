@@ -1,5 +1,4 @@
 var express = require("express");
-var accepts = require("accepts");
 var app = express();
 
 app.get('/', function (req, res) {
@@ -7,8 +6,10 @@ app.get('/', function (req, res) {
     var firstSplit = req.headers['user-agent'].split(') ')[0]
     var secondSplit = firstSplit.split('(');
     var os = secondSplit[1];
+    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAdress;
+    console.log(ip);
     res.end(JSON.stringify({
-        'ip': 'none',
+        'ip': ip,
         'language': lang,
         'software': os,
     }));
